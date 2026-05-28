@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="测试混淆" />
+        android:text="测试继承结构 kotlin" />
 
     <Button
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         android:gravity="center"
         android:textAllCaps="false"
         android:onClick="onTest1"
-        android:text="测试Kotlin" />
+        android:text="测试项目中使用复杂Activity的情况" />
 
     <Button
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
         android:gravity="center"
         android:textAllCaps="false"
         android:onClick="onTest2"
-        android:text="测试Java" />
+        android:text="测试项目中使用复杂fragment的情况" />
 
     <Button
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
         android:gravity="center"
         android:textAllCaps="false"
         android:onClick="onTest3"
-        android:text="显示图片" />
+        android:text="测试项目中多部分Activity的情况" />
 
     <Button
         android:layout_width="match_parent"
@@ -49,24 +49,6 @@
         android:gravity="center"
         android:textAllCaps="false"
         android:onClick="onTest4"
-        android:text="无用" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textAllCaps="false"
-        android:onClick="onTest5"
-        android:text="测试继承结构 java" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:textAllCaps="false"
-        android:onClick="onTest6"
-        android:text="测试继承结构 kotlin" />
+        android:text="测试项目中多部分fragment的情况" />
 
 </LinearLayout>

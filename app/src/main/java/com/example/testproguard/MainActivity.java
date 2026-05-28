@@ -15,6 +15,7 @@ import com.example.testproguard.test2.TestActivity2;
 import com.example.testproguard.test3.TestActivity3;
 import com.example.testproguard.test4.TestActivity4;
 import com.example.testproguard.test5.TestActivity5;
+import com.example.testproguard.test6.TestActivity6;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 显示图片
+     * 无用
      * @param v
      */
     public void onTest4(View v) {
@@ -71,6 +72,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, TestActivity5.class));
     }
 
+    /**
+     * 测试继承结构 kotlin
+     * @param v
+     */
+    public void onTest6(View v) {
+        startActivity(new Intent(this, TestActivity6.class));
+    }
 
 
 
