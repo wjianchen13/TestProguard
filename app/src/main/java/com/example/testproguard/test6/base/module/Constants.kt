@@ -1,31 +1,24 @@
-package com.example.testproguard.test6.base.module;
+package com.example.testproguard.test6.base.module
 
-import androidx.annotation.IntDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import androidx.annotation.IntDef
 
 /**
  *
  */
-public class Constants {
+object Constants {
+    const val MODULE_INIT: Int = 1
+    const val MODULE_VISIABLE: Int = 2
+    const val MODULE_IN_VISIABLE: Int = 3
 
-    public static final int MODULE_INIT = 1;
-    public static final int MODULE_VISIABLE = 2;
-    public static final int MODULE_IN_VISIABLE = 3;
+    @IntDef(
+        MODULE_INIT, MODULE_VISIABLE, MODULE_IN_VISIABLE
+    )
+    @Retention(AnnotationRetention.SOURCE)
+    annotation class AnimEnum
 
-    @IntDef({MODULE_INIT
-            , MODULE_VISIABLE
-            , MODULE_IN_VISIABLE})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface AnimEnum {
-
+    object PayType {
+        const val PAY_TYPE_GOOGLE: Int = 1
+        const val PAY_TYPE_THIRD: Int = 2
+        const val PAY_TYPE_COIN: Int = 3
     }
-
-    public class PayType {
-        public static final int PAY_TYPE_GOOGLE = 1;
-        public static final int PAY_TYPE_THIRD = 2;
-        public static final int PAY_TYPE_COIN = 3;
-    }
-
 }

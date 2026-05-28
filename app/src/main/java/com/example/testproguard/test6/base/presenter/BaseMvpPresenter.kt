@@ -1,91 +1,82 @@
-package com.example.testproguard.test6.base.presenter;
+package com.example.testproguard.test6.base.presenter
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.example.testproguard.test6.base.view.IBaseMvpView;
-import com.example.mylibrary.utils.Utils;
+import android.content.Context
+import android.os.Bundle
+import android.view.View
+import com.example.mylibrary.utils.Utils
+import com.example.testproguard.test6.base.view.IBaseMvpView
 
 /**
  * MVP公共Presenter
  */
-public class BaseMvpPresenter<V extends IBaseMvpView>  {
+open class BaseMvpPresenter<V : IBaseMvpView?>(view: V) {
+    var view: V?
+        protected set
 
-    private static final String TAG = BaseMvpPresenter.class.getSimpleName();
-
-    protected V mView;
-
-    public BaseMvpPresenter(V view) {
-        this.mView = view;
+    init {
+        this.view = view
     }
 
-    public void showToast(String str) {
-        if(mView != null)
-            mView.showToast(str);
+    fun showToast(str: String?) {
+        if (view != null) view!!.showToast(str)
     }
 
-    public Context getContext() {
-        return mView != null ? mView.getContext() : null;
+    val context: Context?
+        get() = if (view != null) view!!.context else null
+
+    open fun onCreate(savedInstanceState: Bundle?) {
+        Utils.i(TAG, "onCreate")
     }
 
-    public V getView() {
-        return mView;
+    open fun onStart() {
+        Utils.i(TAG, "onStart")
     }
 
-    public void onCreate(Bundle savedInstanceState) {
-        Utils.i(TAG, "onCreate");
+    fun onRestart() {
+        Utils.i(TAG, "onRestart")
     }
 
-    public void onStart() {
-        Utils.i(TAG, "onStart");
+    fun onPostResume() {
+        Utils.i(TAG, "onPostResume")
     }
 
-    public void onRestart() {
-        Utils.i(TAG, "onRestart");
+    open fun onResume() {
+        Utils.i(TAG, "onResume")
     }
 
-    public void onPostResume() {
-        Utils.i(TAG, "onPostResume");
+    open fun onPause() {
+        Utils.i(TAG, "onPause")
     }
 
-    public void onResume() {
-        Utils.i(TAG, "onResume");
+    open fun onStop() {
+        Utils.i(TAG, "onStop")
     }
 
-    public void onPause() {
-        Utils.i(TAG, "onPause");
+    open fun onDestroy() {
+        Utils.i(TAG, "onDestroy")
     }
 
-    public void onStop() {
-        Utils.i(TAG, "onStop");
+    open fun onAttach(context: Context) {
+        Utils.i(TAG, "onAttach")
     }
 
-    public void onDestroy() {
-        Utils.i(TAG, "onDestroy");
+    open fun onActivityCreated(savedInstanceState: Bundle?) {
+        Utils.i(TAG, "onAttach")
     }
 
-    public void onAttach(@NonNull Context context) {
-        Utils.i(TAG, "onAttach");
+    open fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Utils.i(TAG, "onAttach")
     }
 
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Utils.i(TAG, "onAttach");
+    open fun onDestroyView() {
+        Utils.i(TAG, "onAttach")
     }
 
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Utils.i(TAG, "onAttach");
+    open fun onDetach() {
+        Utils.i(TAG, "onAttach")
     }
 
-    public void onDestroyView() {
-        Utils.i(TAG, "onAttach");
+    companion object {
+        private val TAG: String = BaseMvpPresenter::class.java.simpleName
     }
-
-    public void onDetach() {
-        Utils.i(TAG, "onAttach");
-    }
-
 }

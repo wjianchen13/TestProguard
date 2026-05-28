@@ -1,16 +1,12 @@
-package com.example.testproguard.test6.base.presenter;
+package com.example.testproguard.test6.base.presenter
 
-import com.example.testproguard.test6.base.view.IBaseMvpView;
+import com.example.testproguard.test6.base.view.IBaseMvpView
 
 /**
  * MVP公共Presenter
  */
-public class BaseMultiPartMvpPresenter<V extends IBaseMvpView> extends BaseMvpPresenter<V> {
-
-    private static final String TAG = BaseMultiPartMvpPresenter.class.getSimpleName();
-
-    public BaseMultiPartMvpPresenter(V view) {
-        super(view);
+open class BaseMultiPartMvpPresenter<V : IBaseMvpView?>(view: V) : BaseMvpPresenter<V>(view) {
+    companion object {
+        private val TAG: String = BaseMultiPartMvpPresenter::class.java.simpleName
     }
-
 }

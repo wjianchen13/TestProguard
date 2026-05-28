@@ -1,141 +1,119 @@
-package com.example.testproguard.test6.base.presenter;
+package com.example.testproguard.test6.base.presenter
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.example.testproguard.test6.base.view.IBaseMvpView;
-
-import java.util.LinkedList;
-import java.util.List;
+import android.content.Context
+import android.os.Bundle
+import android.view.View
+import com.example.testproguard.test6.base.view.IBaseMvpView
+import java.util.LinkedList
 
 /**
  * Fragment多个部分独立公共Presenter
  */
-public class MultiPartyMvpPresenter<V extends IBaseMvpView> extends BaseMultiPartMvpPresenter<V> {
+open class MultiPartyMvpPresenter<V : IBaseMvpView?>(view: V) : BaseMultiPartMvpPresenter<V>(view) {
+    protected var mChildFragmentPresenters: MutableList<BaseMultiPartMvpPresenter<*>>? = null
 
-    private static final String TAG = MultiPartyMvpPresenter.class.getSimpleName();
+    protected val childFragmentPresenters: MutableList<BaseMultiPartMvpPresenter<*>>
+        get() {
+            if (mChildFragmentPresenters == null) mChildFragmentPresenters =
+                LinkedList()
+            return mChildFragmentPresenters!!
+        }
 
-    protected List<BaseMultiPartMvpPresenter> mChildFragmentPresenters;
-
-    public MultiPartyMvpPresenter(V view) {
-        super(view);
+    protected fun <T : BaseMultiPartMvpPresenter<*>?> initChildPresenter(presenter: T?): T? {
+        if (presenter != null) childFragmentPresenters.add(presenter)
+        return presenter
     }
 
-    protected List<BaseMultiPartMvpPresenter> getChildFragmentPresenters() {
-        if(mChildFragmentPresenters == null)
-            mChildFragmentPresenters = new LinkedList<>();
-        return mChildFragmentPresenters;
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onAttach(context)
+        })
     }
 
-    protected <T extends BaseMultiPartMvpPresenter> T initChildPresenter(T presenter) {
-        if(presenter != null)
-            getChildFragmentPresenters().add(presenter);
-        return presenter;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onCreate(savedInstanceState)
+        })
     }
 
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onAttach(context);
-        });
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onActivityCreated(savedInstanceState)
+        })
     }
 
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onCreate(savedInstanceState);
-        });
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onViewCreated(view, savedInstanceState)
+        })
     }
 
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onActivityCreated(savedInstanceState);
-        });
+    override fun onStart() {
+        super.onStart()
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onStart()
+        })
     }
 
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onViewCreated(view, savedInstanceState);
-        });
+    override fun onResume() {
+        super.onResume()
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onResume()
+        })
     }
 
-    public void onStart() {
-        super.onStart();
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onStart();
-        });
+    override fun onPause() {
+        super.onPause()
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onPause()
+        })
     }
 
-    public void onResume() {
-        super.onResume();
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onResume();
-        });
+    override fun onStop() {
+        super.onStop()
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onStop()
+        })
     }
 
-    public void onPause() {
-        super.onPause();
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onPause();
-        });
+    override fun onDestroyView() {
+        super.onDestroyView()
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onDestroyView()
+        })
     }
 
-    public void onStop() {
-        super.onStop();
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onStop();
-        });
+    override fun onDestroy() {
+        super.onDestroy()
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onDestroy()
+        })
     }
 
-    public void onDestroyView() {
-        super.onDestroyView();
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onDestroyView();
-        });
+    override fun onDetach() {
+        super.onDetach()
+        findAllChildPresenter(OnFindListener { presenter: BaseMultiPartMvpPresenter<*>? ->
+            presenter?.onDetach()
+        })
     }
 
-    public void onDestroy() {
-        super.onDestroy();
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onDestroy();
-        });
-    }
-
-    public void onDetach() {
-        super.onDetach();
-        findAllChildPresenter(presenter -> {
-            if(presenter != null)
-                presenter.onDetach();
-        });
-    }
-
-    private void findAllChildPresenter(OnFindListener listener) {
-        if(getChildFragmentPresenters() != null && getChildFragmentPresenters().size() > 0) {
-            for (BaseMultiPartMvpPresenter p : getChildFragmentPresenters()){
-                if(listener != null)
-                    listener.onFindPresenter(p);
+    private fun findAllChildPresenter(listener: OnFindListener?) {
+        if (childFragmentPresenters != null && childFragmentPresenters.size > 0) {
+            for (p in childFragmentPresenters) {
+                listener?.onFindPresenter(p)
             }
         }
     }
 
-    public interface OnFindListener {
-        void onFindPresenter(BaseMultiPartMvpPresenter presenter);
+    fun interface OnFindListener {
+        fun onFindPresenter(presenter: BaseMultiPartMvpPresenter<*>?)
     }
 
+    companion object {
+        private val TAG: String = MultiPartyMvpPresenter::class.java.simpleName
+    }
 }

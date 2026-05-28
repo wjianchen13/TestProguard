@@ -1,141 +1,113 @@
-package com.example.testproguard.test6.base.module;
+package com.example.testproguard.test6.base.module
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.example.testproguard.test6.base.LazyLoader;
-import com.example.testproguard.test6.base.presenter.BaseMultiPartMvpPresenter;
-import com.example.testproguard.test6.base.view.IBaseMvpView;
-import com.example.testproguard.test6.base.view.IBaseTargetView;
+import android.content.Context
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import com.example.testproguard.test6.base.LazyLoader
+import com.example.testproguard.test6.base.module.Constants.AnimEnum
+import com.example.testproguard.test6.base.presenter.BaseMultiPartMvpPresenter
+import com.example.testproguard.test6.base.view.IBaseMvpView
+import com.example.testproguard.test6.base.view.IBaseTargetView
 
 /**
  * 模块公共父类
  *
  */
-public abstract class BaseModule<V extends IBaseTargetView, P extends BaseMultiPartMvpPresenter> extends LazyLoader implements IBaseMvpView, View.OnClickListener {
+abstract class BaseModule<V : IBaseTargetView?, P : BaseMultiPartMvpPresenter<*>?>(@JvmField protected var mRootLayout: View?) :
+    LazyLoader(), IBaseMvpView, View.OnClickListener {
+    protected var mContext: Context? = null
+    protected var mTarget: V? = null
+    @JvmField
+    protected var mPresenter: P? = null
 
-    protected Context mContext;
-    protected V mTarget;
-    protected P mPresenter;
+    @JvmField
+    protected var mCurrentLayout: View? = null
 
-    protected View mCurrentLayout;
-    protected View mRootLayout;
-
-    public BaseModule(View parent) {
-        super();
-        this.mRootLayout = parent;
+    constructor(target: V, presenter: P, parent: View?) : this(parent) {
+        this.mTarget = target
+        mTarget!!.addModule(this)
+        this.mPresenter = presenter
     }
 
-    public BaseModule(V target, P presenter, View parent) {
-        this(parent);
-        this.mTarget = target;
-        this.mTarget.addModule(this);
-        this.mPresenter = presenter;
+    override fun showToast(str: String) {
+        if (context() != null) Toast.makeText(context(), str, Toast.LENGTH_SHORT).show()
     }
 
-    @Override
-    public void showToast(String str) {
-        if(context() != null)
-            Toast.makeText(context(), str, Toast.LENGTH_SHORT).show();
+    override fun lazyInitView() {
     }
 
-    @Override
-    protected void lazyInitView() {
+    val isOnShowing: Boolean
+        get() {
+            if (mCurrentLayout == null) return false
+            return mCurrentLayout!!.visibility == View.VISIBLE
+        }
 
+    override fun getContext(): Context? {
+        return null
     }
 
-    public boolean isOnShowing() {
-        if (mCurrentLayout == null)
-            return false;
-        return mCurrentLayout.getVisibility() == View.VISIBLE;
-    }
+    val applicationContext: Context?
+        get() = null
 
-    public Context getContext() {
-        return null;
-    }
+    open fun setVisible(@AnimEnum animEnum: Int) {
+        if (animEnum == Constants.MODULE_VISIABLE) init()
+        if (!isLazyInit && animEnum == Constants.MODULE_IN_VISIABLE) return
 
-    public Context getApplicationContext() {
-        return null;
-    }
+        if (mRootLayout != null) mRootLayout!!.clearAnimation()
 
-    public void setVisible(@Constants.AnimEnum int animEnum) {
-        if (animEnum == Constants.MODULE_VISIABLE)
-            init();
-        if (!isLazyInit() && animEnum == Constants.MODULE_IN_VISIABLE)
-            return;
-
-        if (mRootLayout != null)
-            mRootLayout.clearAnimation();
-
-        switch (animEnum) {
-            case Constants.MODULE_VISIABLE:       // 显示
-
-                break;
-            case Constants.MODULE_IN_VISIABLE:    // 隐藏
-
-                break;
+        when (animEnum) {
+            Constants.MODULE_VISIABLE -> {}
+            Constants.MODULE_IN_VISIABLE -> {}
         }
     }
 
     /**********************************************************************************************
      * Activity生命周期
-     **********************************************************************************************/
-    public void onCreate(Bundle savedInstanceState) {
-
+     */
+    fun onCreate(savedInstanceState: Bundle?) {
     }
 
-    public void onStart() {
+    fun onStart() {
     }
 
-    public void onRestart() {
+    fun onRestart() {
     }
 
-    public void onResume() {
+    fun onResume() {
     }
 
-    public void onPause() {
+    fun onPause() {
     }
 
-    public void onStop() {
+    fun onStop() {
     }
 
-    public void onDestroy() {
+    fun onDestroy() {
     }
 
     /**********************************************************************************************
      * Fragment 生命周期
-     **********************************************************************************************/
-    public void onAttach(@NonNull Context context) {
-
+     */
+    fun onAttach(context: Context) {
     }
 
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
+    fun onActivityCreated(savedInstanceState: Bundle?) {
     }
 
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
+    fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     }
 
-    public void onDestroyView() {
-
+    fun onDestroyView() {
     }
 
-    public void onDetach() {
-
+    fun onDetach() {
     }
 
-    @Override
-    public void onClick(View v) {
-
+    override fun onClick(v: View) {
     }
 
-    private Context context() {
-        return mContext;
+    private fun context(): Context? {
+        return mContext
     }
 }

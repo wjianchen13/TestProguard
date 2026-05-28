@@ -1,135 +1,120 @@
-package com.example.testproguard.test6.test_multi_activity.view;
+package com.example.testproguard.test6.test_multi_activity.view
 
-import static com.example.testproguard.test6.base.module.Constants.MODULE_VISIABLE;
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import com.example.testproguard.R
+import com.example.testproguard.test6.base.module.Constants.MODULE_VISIABLE
+import com.example.testproguard.test6.base.view.BaseMultiPartMvpActivity
+import com.example.testproguard.test6.test_multi_activity.modules.ActivityPart1Module
+import com.example.testproguard.test6.test_multi_activity.modules.ActivityPart2Module
+import com.example.testproguard.test6.test_multi_activity.modules.ActivityPart3Module
+import com.example.testproguard.test6.test_multi_activity.presenter.TestMultiPartMvpActivityPresenter
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+class TestMultiPartyActivity :
+    BaseMultiPartMvpActivity<ITestMultiPartMvpActivityView?, TestMultiPartMvpActivityPresenter?>(),
+    ITestMultiPartMvpActivityView, View.OnClickListener {
+    private val LOG = "=============================> "
 
-import com.example.testproguard.R;
-import com.example.testproguard.test6.base.view.BaseMultiPartMvpActivity;
-import com.example.testproguard.test6.test_multi_activity.modules.ActivityPart1Module;
-import com.example.testproguard.test6.test_multi_activity.modules.ActivityPart2Module;
-import com.example.testproguard.test6.test_multi_activity.modules.ActivityPart3Module;
-import com.example.testproguard.test6.test_multi_activity.presenter.TestMultiPartMvpActivityPresenter;
+    private var mRootView: View? = null
+    private var btnTest1: Button? = null
+    private var btnTest2: Button? = null
+    private var btnTest3: Button? = null
+    private var btnTest4: Button? = null
 
-public class TestMultiPartyActivity extends BaseMultiPartMvpActivity<ITestMultiPartMvpActivityView, TestMultiPartMvpActivityPresenter> implements ITestMultiPartMvpActivityView, View.OnClickListener {
+    private var mPart1Module: ActivityPart1Module? = null
+    private var mPart2Module: ActivityPart2Module? = null
+    private var mPart3Module: ActivityPart3Module? = null
 
-    public static final String TAG = TestMultiPartyActivity.class.getSimpleName();
-
-    private String LOG = "=============================> ";
-
-    private View mRootView;
-    private Button btnTest1;
-    private Button btnTest2;
-    private Button btnTest3;
-    private Button btnTest4;
-
-    private ActivityPart1Module mPart1Module;
-    private ActivityPart2Module mPart2Module;
-    private ActivityPart3Module mPart3Module;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_multi_part);
-        initView();
-        initModules();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_test_multi_part)
+        initView()
+        initModules()
     }
 
-    public void initView() {
-        mRootView = findViewById(R.id.rlyt_frame);
-        btnTest1 = findViewById(R.id.btn_test1);
-        btnTest2 = findViewById(R.id.btn_test2);
-        btnTest3 = findViewById(R.id.btn_test3);
-        btnTest4 = findViewById(R.id.btn_test4);
-        btnTest1.setOnClickListener(this);
-        btnTest2.setOnClickListener(this);
-        btnTest3.setOnClickListener(this);
-        btnTest4.setOnClickListener(this);
+    fun initView() {
+        mRootView = findViewById(R.id.rlyt_frame)
+        btnTest1 = findViewById(R.id.btn_test1)
+        btnTest2 = findViewById(R.id.btn_test2)
+        btnTest3 = findViewById(R.id.btn_test3)
+        btnTest4 = findViewById(R.id.btn_test4)
+        btnTest1?.setOnClickListener(this)
+        btnTest2?.setOnClickListener(this)
+        btnTest3?.setOnClickListener(this)
+        btnTest4?.setOnClickListener(this)
     }
 
-    @Override
-    protected TestMultiPartMvpActivityPresenter initPresenter() {
-        return new TestMultiPartMvpActivityPresenter(this);
+    override fun initPresenter(): TestMultiPartMvpActivityPresenter {
+        return TestMultiPartMvpActivityPresenter(this)
     }
 
-    private void initModules() {
-        mPart1Module = new ActivityPart1Module(this, getPresenter(), mRootView);
-        mPart1Module.init();
-        mPart2Module = new ActivityPart2Module(this, getPresenter(), mRootView);
-        mPart2Module.init();
-        mPart3Module = new ActivityPart3Module(this, getPresenter(), mRootView);
-
+    private fun initModules() {
+        mPart1Module = ActivityPart1Module(this, presenter, mRootView)
+        mPart1Module!!.init()
+        mPart2Module = ActivityPart2Module(this, presenter, mRootView)
+        mPart2Module!!.init()
+        mPart3Module = ActivityPart3Module(this, presenter, mRootView)
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.btn_test1) {
-            getPresenter().getPart1Text();
-        } else if(v.getId() == R.id.btn_test2) {
-            getPresenter().getPart2Text();
-        } else if(v.getId() == R.id.btn_test3) {
-            mPart3Module.setVisible(MODULE_VISIABLE);
-        } else if(v.getId() == R.id.btn_test4) {
-            getPresenter().getPart3Text();
+    override fun onClick(v: View) {
+        if (v.id == R.id.btn_test1) {
+            presenter!!.getPart1Text()
+        } else if (v.id == R.id.btn_test2) {
+            presenter!!.getPart2Text()
+        } else if (v.id == R.id.btn_test3) {
+            mPart3Module!!.setVisible(MODULE_VISIABLE)
+        } else if (v.id == R.id.btn_test4) {
+            presenter!!.getPart3Text()
         }
     }
 
-    @Override
-    public void test() {
-
+    override fun test() {
     }
 
-    @Override
-    public void onGetText(String str) {
-        mPart1Module.onGetText(str);
+    override fun onGetText(str: String) {
+        mPart1Module!!.onGetText(str)
     }
 
 
-    @Override
-    public void onGetText2(String str) {
-        mPart2Module.onGetText2(str);
+    override fun onGetText2(str: String) {
+        mPart2Module!!.onGetText2(str)
     }
 
-    @Override
-    public void onGetText3(String str) {
-        mPart3Module.onGetText3(str);
+    override fun onGetText3(str: String) {
+        mPart3Module!!.onGetText3(str)
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    override fun onStart() {
+        super.onStart()
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
+    override fun onRestart() {
+        super.onRestart()
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    override fun onPostResume() {
+        super.onPostResume()
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    override fun onResume() {
+        super.onResume()
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+    override fun onPause() {
+        super.onPause()
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+    override fun onStop() {
+        super.onStop()
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    companion object {
+        val TAG: String = TestMultiPartyActivity::class.java.simpleName
     }
 }
